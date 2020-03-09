@@ -44,9 +44,7 @@ class Sequencer {
       const shouldPlay = sequence.pattern[this.currentStep]
 
       if (shouldPlay) {
-        sequence.sample.pause()
-        sequence.sample.currentTime = 0
-        sequence.sample.play()
+        new Audio(sequence.sample.src).play()
       }
     })
 
@@ -55,12 +53,12 @@ class Sequencer {
 }
 
 const sequences = [
-  { color: '#888888', sample: kick },
-  { color: '#222222', sample: closeHat },
-  { color: '#080808', sample: snare },
-  { color: '#410010', sample: cowbell },
-  { color: '#924924', sample: hiConga },
-  { color: '#108901', sample: lowConga }
+  { color: '#000000', sample: kick },
+  { color: '#000000', sample: closeHat },
+  { color: '#000000', sample: snare },
+  { color: '#000000', sample: cowbell },
+  { color: '#000000', sample: hiConga },
+  { color: '#000000', sample: lowConga }
 ]
 
 const seq = new Sequencer(sequences.map(s => ({ pattern: color2rythm(s.color), sampleSrc: s.sample })), 400)
