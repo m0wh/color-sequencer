@@ -256,9 +256,9 @@ function () {
         var shouldPlay = sequence.pattern[_this2.currentStep];
 
         if (shouldPlay) {
-          sequence.sample.pause();
-          sequence.sample.currentTime = 0;
-          sequence.sample.play();
+          // new Audio(sequence.sample.src).pause()
+          // sequence.sample.currentTime = 0
+          new Audio(sequence.sample.src).play();
         }
       });
       this.currentStep = (this.currentStep + 1) % this.sequences[0].pattern.length;
@@ -269,22 +269,22 @@ function () {
 }();
 
 var sequences = [{
-  color: '#888888',
+  color: '#000000',
   sample: index_1.kick
 }, {
-  color: '#222222',
+  color: '#000000',
   sample: index_1.closeHat
 }, {
-  color: '#080808',
+  color: '#000000',
   sample: index_1.snare
 }, {
-  color: '#410010',
+  color: '#000000',
   sample: index_1.cowbell
 }, {
-  color: '#924924',
+  color: '#000000',
   sample: index_1.hiConga
 }, {
-  color: '#108901',
+  color: '#000000',
   sample: index_1.lowConga
 }];
 var seq = new Sequencer(sequences.map(function (s) {
@@ -360,7 +360,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59382" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60339" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
