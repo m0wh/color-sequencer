@@ -241,6 +241,13 @@ function () {
       }, 60 * 1000 / this.bpm);
     }
   }, {
+    key: "updatePattern",
+    value: function updatePattern(sequenceIndex, newPattern) {
+      if (this.sequences[sequenceIndex]) {
+        this.sequences[sequenceIndex].pattern = newPattern;
+      }
+    }
+  }, {
     key: "step",
     value: function step() {
       var _this2 = this;
@@ -262,27 +269,42 @@ function () {
 }();
 
 var sequences = [{
-  color: '#4285F4',
-  sample: index_1.cowbell
+  color: '#888888',
+  sample: index_1.kick
 }, {
-  color: '#DB4437',
-  sample: index_1.snare
-}, {
-  color: '#F4B400',
+  color: '#222222',
   sample: index_1.closeHat
 }, {
-  color: '#0F9D58',
+  color: '#080808',
+  sample: index_1.snare
+}, {
+  color: '#410010',
+  sample: index_1.cowbell
+}, {
+  color: '#924924',
   sample: index_1.hiConga
 }, {
-  color: '#AAAAAA',
-  sample: index_1.kick
+  color: '#108901',
+  sample: index_1.lowConga
 }];
 var seq = new Sequencer(sequences.map(function (s) {
   return {
     pattern: color2rythm(s.color),
     sampleSrc: s.sample
   };
-}), 120);
+}), 400);
+var inputsWrapper = document.createElement('div');
+seq.sequences.forEach(function (_sequence, i) {
+  var input = document.createElement('input');
+  input.setAttribute('type', 'color');
+  input.value = sequences[i].color;
+  inputsWrapper.append(input);
+  input.addEventListener('change', function () {
+    seq.updatePattern(i, color2rythm(input.value));
+    sequences[i].color = input.value;
+  });
+});
+document.body.append(inputsWrapper);
 var canvas = document.createElement('canvas');
 var ctx = canvas.getContext('2d');
 var physicalScl = 30;
@@ -338,7 +360,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57196" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59382" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
