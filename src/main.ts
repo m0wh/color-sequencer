@@ -1,4 +1,4 @@
-import { closeHat, hiConga, cowbell, snare, kick } from './assets/samples/tr808/index'
+import { closeHat, hiConga, cowbell, snare, kick, lowConga } from './assets/samples/tr808/index'
 
 function pad (n: string, width: number): string {
   return n.length >= width ? n : new Array(width - n.length + 1).join('0') + n
@@ -33,6 +33,12 @@ class Sequencer {
     }, (60 * 1000) / this.bpm)
   }
 
+  public updatePattern (sequenceIndex: number, newPattern: Array<boolean>): void {
+    if (this.sequences[sequenceIndex]) {
+      this.sequences[sequenceIndex].pattern = newPattern
+    }
+  }
+
   private step (): void {
     this.sequences.forEach(sequence => {
       const shouldPlay = sequence.pattern[this.currentStep]
@@ -49,14 +55,29 @@ class Sequencer {
 }
 
 const sequences = [
-  { color: '#4285F4', sample: cowbell },
-  { color: '#DB4437', sample: snare },
-  { color: '#F4B400', sample: closeHat },
-  { color: '#0F9D58', sample: hiConga },
-  { color: '#AAAAAA', sample: kick }
+  { color: '#888888', sample: kick },
+  { color: '#222222', sample: closeHat },
+  { color: '#080808', sample: snare },
+  { color: '#410010', sample: cowbell },
+  { color: '#924924', sample: hiConga },
+  { color: '#108901', sample: lowConga }
 ]
 
-const seq = new Sequencer(sequences.map(s => ({ pattern: color2rythm(s.color), sampleSrc: s.sample })), 120)
+const seq = new Sequencer(sequences.map(s => ({ pattern: color2rythm(s.color), sampleSrc: s.sample })), 400)
+
+const inputsWrapper = document.createElement('div')
+seq.sequences.forEach((_sequence, i) => {
+  const input = document.createElement('input')
+  input.setAttribute('type', 'color')
+  input.value = sequences[i].color
+
+  inputsWrapper.append(input)
+  input.addEventListener('change', () => {
+    seq.updatePattern(i, color2rythm(input.value))
+    sequences[i].color = input.value
+  })
+})
+document.body.append(inputsWrapper)
 
 const canvas = document.createElement('canvas')
 const ctx = canvas.getContext('2d')
